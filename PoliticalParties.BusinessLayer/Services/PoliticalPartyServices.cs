@@ -21,12 +21,12 @@ namespace PoliticalParties.BusinessLayer.Services
             _politicalPartiesDbContext = politicalPartiesDbContext;
         }
 
-        public async Task<PoliticalParty> GetByPartyName(string politicalPartyName)
+        public async Task<IEnumerable<PoliticalParty>> GetByPartyName(string politicalPartyName)
         {
             return await _politicalPartyRepository.GetByPartyName(politicalPartyName); 
         }
 
-        public async Task<PoliticalParty> GetByFounderName(string politicalPartyFounderName)
+        public async Task<IEnumerable<PoliticalParty>> GetByFounderName(string politicalPartyFounderName)
         {
             return await _politicalPartyRepository.GetByFounderName(politicalPartyFounderName);
         }

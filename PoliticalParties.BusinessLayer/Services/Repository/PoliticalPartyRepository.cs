@@ -30,11 +30,12 @@ namespace PoliticalParties.BusinessLayer.Services.Repository
             }
         }
 
-        public async Task<PoliticalParty> GetByPartyName(string politicalPartyName)
+        public async Task<IEnumerable<PoliticalParty>> GetByPartyName(string politicalPartyName)
         {
             try
             {
-                return await _politicalPartiesDbContext.PoliticalParties.FirstOrDefaultAsync(p => p.Name == politicalPartyName);
+                var result = _politicalPartiesDbContext.PoliticalParties.Where(p => p.Name.ToLower() == politicalPartyName.ToLower()).ToList();
+                return result.Where(x => x.IsDeleted == false);
             }
             catch (Exception ex)
             {
@@ -42,11 +43,12 @@ namespace PoliticalParties.BusinessLayer.Services.Repository
             }
         }
 
-        public async Task<PoliticalParty> GetByFounderName(string politicalPartyFounderName)
+        public async Task<IEnumerable<PoliticalParty>> GetByFounderName(string politicalPartyFounderName)
         {
             try
-            {                        
-                return await _politicalPartiesDbContext.PoliticalParties.FirstOrDefaultAsync(p => p.Name == politicalPartyFounderName);
+            {
+                var result = _politicalPartiesDbContext.PoliticalParties.Where(p => p.Founder.ToLower() == politicalPartyFounderName.ToLower()).ToList();
+                return result.Where(x => x.IsDeleted == false);
             }
             catch (Exception ex)
             {
@@ -59,8 +61,8 @@ namespace PoliticalParties.BusinessLayer.Services.Repository
             try
             {
                 var result = _politicalPartiesDbContext.PoliticalParties.
-                OrderByDescending(x => x.PoliticalPartyId).Take(10).ToList();
-                return result;
+                OrderByDescending(x => x.PoliticalPartyId).ToList();
+                return result.Where(x => x.IsDeleted == false);
             }
             catch (Exception ex)
             {
